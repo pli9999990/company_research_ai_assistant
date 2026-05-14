@@ -1,0 +1,8 @@
+# Use Python 3.10 through 3.12. The local Python 3.13 alpha build is not
+# compatible with some compiled dependencies used by LangGraph/Pydantic.
+langchain-core>=0.3.0
+langchain-openai>=0.2.0
+langgraph>=0.2.70
+python-dotenv>=1.0.0
+requests>=2.31.0
+tavily-python>=0.5.0

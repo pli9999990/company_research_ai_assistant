@@ -1,0 +1,76 @@
+Metadata-Version: 2.4
+Name: company-research-assistant
+Version: 0.1.0
+Summary: A multi-agent LangGraph research assistant for company research.
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: langchain-core>=0.3.0
+Requires-Dist: langgraph>=0.2.70
+Requires-Dist: tavily-python>=0.5.0
+Provides-Extra: dev
+Requires-Dist: pytest>=8.0.0; extra == "dev"
+
+# Company Research Assistant
+
+A multi-agent research assistant built with LangGraph. It gathers company information, supports follow-up questions, validates research quality, and pauses for human clarification when a request is ambiguous.
+
+## Architecture
+
+- `clarity`: checks whether the request names a company or can resolve a follow-up from conversation context.
+- `clarification_interrupt`: pauses the graph with `interrupt(...)` when the query is too vague.
+- `research`: uses a search tool to gather company news, financial, and recent-development information, then assigns a confidence score from 0 to 10.
+- `validator`: reviews research quality and loops back to research when results are insufficient, up to three attempts.
+- `synthesis`: produces a user-friendly answer and stores it in conversation history.
+
+## Setup
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -e ".[dev]"
+```
+
+For live Tavily search:
+
+```bash
+export TAVILY_API_KEY="your-key"
+```
+
+Without `TAVILY_API_KEY`, the app uses a local deterministic search tool so the graph and tests still run.
+
+## CLI Demo
+
+```bash
+python -m company_research_assistant.cli
+```
+
+Try:
+
+```text
+Research Nvidia's recent developments
+What about their competitors?
+Tell me more about the CEO
+```
+
+If you ask a vague query such as `Tell me recent news`, the graph interrupts and asks which company you mean. The CLI resumes the same thread after you answer.
+
+## Programmatic Use
+
+```python
+from langgraph.types import Command
+
+from company_research_assistant.graph import create_graph
+from company_research_assistant.search import TavilyCompanySearchTool
+
+graph = create_graph(search_tool=TavilyCompanySearchTool.from_env())
+config = {"configurable": {"thread_id": "demo-thread"}}
+
+result = graph.invoke({"query": "Research Apple's recent developments"}, config=config)
+print(result["final_answer"])
+
+interrupted = graph.invoke({"query": "Tell me recent news"}, config=config)
+print(interrupted["__interrupt__"][0].value["question"])
+
+resumed = graph.invoke(Command(resume="Microsoft"), config=config)
+print(resumed["final_answer"])
+```

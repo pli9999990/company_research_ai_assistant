@@ -1,0 +1,100 @@
+(.venv) (base) philip@philips-MacBook-Pro turing % python -m company_research_assistant.cli
+Company Research Assistant
+
+LangGraph State Diagram
+
+START
+  |
+  v
+Clarity Agent
+  |-- needs_clarification --> Human Clarification Interrupt
+  |                             |
+  |                             v
+  `-- clear -----------------> Research Agent
+                                |
+                                |-- confidence_score < 6 --> Validator Agent
+                                |                       |
+                                |                       |-- insufficient and attempts < 3 --.
+                                |                       |                                      |
+                                |                       `-- sufficient or max attempts --------|
+                                |                                                              |
+                                `-- confidence_score >= 6 --------------------------------------v
+                                                                                         Synthesis Agent
+                                                                                              |
+                                                                                              v
+                                                                                             END
+
+Type a company research question, or 'quit' to exit.
+
+You: tell about news
+Which company are you asking about? nvidia
+
+Assistant:
+Recent news about NVIDIA includes a record revenue report for the fourth quarter of fiscal 2026, a partnership with Corning to enhance AI infrastructure manufacturing in the US, and CEO Jensen Huang's participation in a trip to China with President Trump, which may positively impact chip exports.
+
+You: who is CEO
+
+Assistant:
+The CEO of NVIDIA is Jensen Huang.
+
+You: what is the latest stock price
+
+Assistant:
+The latest stock price of NVIDIA (NVDA) is $225.83 USD.
+
+You: who was CFO
+
+Assistant:
+The CFO of NVIDIA is Colette Kress.
+
+You: who are the competitors
+
+Assistant:
+NVIDIA's key competitors include AMD, Google (with its TPUs), and Cerebras.
+
+You: what the latest product releases
+
+Assistant:
+NVIDIA's latest product releases include the NVIDIA Spectrum-X, an AI-native Ethernet fabric for gigascale AI, and new RTX capabilities introduced in their app to enhance gaming and creative experiences.
+
+You: how much NVIDIA's H20O cost ?
+
+Assistant:
+The cost of NVIDIA's H20 chip is not specified in the provided information.
+
+You: how many current total employees
+
+Assistant:
+NVIDIA currently has 42,000 employees.
+
+You: who are the founders of the company
+
+Assistant:
+NVIDIA was founded by Jensen Huang, Chris Malachowsky, and Curtis Priem.
+
+You: tell me more about the CEO
+
+Assistant:
+NVIDIA's CEO, Jensen Huang, co-founded the company in 1993 and has been a key figure in its growth, leading innovations in AI and graphics technology.
+
+You: How old is the CEO ?                     
+
+Assistant:
+Jensen Huang, the CEO of NVIDIA, was born on February 17, 1963, making him 60 years old.
+
+You: Where was CEO born?
+
+Assistant:
+Jensen Huang, the CEO of NVIDIA, was born in Tainan City, Taiwan.
+
+You: When and where was GTC event in 2026
+
+Assistant:
+The NVIDIA GTC event in 2026 took place from March 16-19 in San Jose, California, and from June 1-4 at the Taipei International Convention Center.
+
+You: How expensive are Nvidia's latest GPUs?
+
+Assistant:
+Nvidia's latest GeForce RTX 5090 GPU, part of the 50-series, is highly priced due to its advanced features like 32GB of GDDR7 VRAM, and it's challenging to find at a reasonable price.
+
+You: quit

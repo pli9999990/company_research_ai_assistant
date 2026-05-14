@@ -1,0 +1,23 @@
+[project]
+name = "company-research-assistant"
+version = "0.1.0"
+description = "A multi-agent LangGraph research assistant for company research."
+readme = "README.md"
+requires-python = ">=3.10,<3.13"
+dependencies = [
+    "langchain-core>=0.3.0",
+    "langchain-openai>=0.2.0",
+    "langgraph>=0.2.70",
+    "python-dotenv>=1.0.0",
+    "requests>=2.31.0",
+    "tavily-python>=0.5.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
